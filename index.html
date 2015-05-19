@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="eng">
 <head>
     <!--Ссылка на шаблон: http://bootstrap-3.ru/examples/dashboard/#-->
     <meta charset="utf-8">
@@ -41,7 +41,7 @@
         <div class="navbar-collapse collapse">
             <!--Элементы навигации в хедере-->
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="https://github.com/rozag/Catelyn" target="_blank">Исходный код</a></li>
+                <li><a href="https://github.com/rozag/Catelyn" target="_blank">Source code</a></li>
                 <!--<li><a href="#">Настройки</a></li>-->
                 <!--<li><a href="#">Профиль</a></li>-->
                 <!--<li><a href="#">Помощь</a></li>-->
@@ -58,22 +58,16 @@
 <!--основной контент-->
 <div class="container-fluid">
     <div class="row">
-        <!--Боковое меню. В будущем - список генов-->
+        <!--Боковое меню - список генов-->
         <div class="col-sm-3 col-md-2 sidebar">
-            <ul id="genes_list" class="nav nav-sidebar">
-                <!--<li class="active"><a href="#">Overview</a></li>-->
-                <li><a href="#">Overview</a></li>
-                <li><a href="#">Reports</a></li>
-                <li><a href="#">Analytics</a></li>
-                <li><a href="#">Export</a></li>
-            </ul>
+            <ul id="genes_list" class="nav nav-sidebar"></ul>
         </div>
 
         <!--Основная часть страницы-->
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 
             <div align="center">
-                <h5 id="step_label">Шаг: 0</h5>
+                <h5 id="step_label">Step: 0</h5>
                 <!--Добавить class active, чтобы стали нажатыми-->
                 <div class="btn-group btn-group-sm" role="group" aria-label="...">
                     <button id="play_button" type="button" class="btn btn-info btn-lg active"><span class="glyphicon glyphicon-play"></span></button>
@@ -92,6 +86,7 @@
 <script src="js/jquery-latest.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/d3.v3.min.js" charset="utf-8"></script>
+<script src="js/main.js"></script>
 </body>
 
 </html>

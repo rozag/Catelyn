@@ -1,0 +1,228 @@
+{
+  "nodes": [
+    {
+      "id": 0,
+      "name": "Insulin",
+      "x": 80,
+      "y": 220,
+      "fixed": true,
+      "proteins": 10,
+      "proteins_income": 1,
+      "transmit": true,
+      "power": 1,
+      "weight": 2
+    },
+    {
+      "id": 1,
+      "name": "Insulin rec.",
+      "x": 190,
+      "y": 220,
+      "fixed": true,
+      "proteins": 10,
+      "proteins_income": 1,
+      "transmit": true,
+      "power": 1,
+      "weight": 2
+    },
+    {
+      "id": 2,
+      "name": "IRS1",
+      "x": 300,
+      "y": 220,
+      "fixed": true,
+      "transmit": true,
+      "proteins": 10,
+      "proteins_income": 1,
+      "power": 1,
+      "weight": 2
+    },
+    {
+      "id": 3,
+      "name": "PI3K",
+      "x": 380,
+      "y": 220,
+      "fixed": true,
+      "transmit": false,
+      "proteins": 10,
+      "proteins_income": 1,
+      "power": 1,
+      "weight": 2
+    },
+    {
+      "id": 4,
+      "name": "PDK1",
+      "x": 450,
+      "y": 390,
+      "fixed": true,
+      "transmit": false,
+      "proteins": 10,
+      "proteins_income": 1,
+      "power": 1,
+      "weight": 2
+    },
+    {
+      "id": 5,
+      "name": "AKT",
+      "x": 560,
+      "y": 340,
+      "fixed": true,
+      "transmit": true,
+      "proteins": 10,
+      "proteins_income": 1,
+      "power": 1,
+      "weight": 2
+    },
+    {
+      "id": 6,
+      "name": "PRAS40",
+      "x": 670,
+      "y": 360,
+      "fixed": true,
+      "transmit": true,
+      "proteins": 10,
+      "proteins_income": 1,
+      "power": 1,
+      "weight": 2
+    },
+    {
+      "id": 7,
+      "name": "mTOR",
+      "x": 740,
+      "y": 150,
+      "fixed": true,
+      "transmit": true,
+      "proteins": 10,
+      "proteins_income": 1,
+      "power": 1,
+      "weight": 2
+    },
+    {
+      "id": 8,
+      "name": "PTEN",
+      "x": 400,
+      "y": 140,
+      "fixed": true,
+      "transmit": true,
+      "proteins": 10,
+      "proteins_income": 1,
+      "power": 1,
+      "weight": 2
+    },
+    {
+      "id": 9,
+      "name": "TEL2",
+      "x": 500,
+      "y": 150,
+      "fixed": true,
+      "transmit": true,
+      "proteins": 10,
+      "proteins_income": 1,
+      "power": 1,
+      "weight": 2
+    },
+    {
+      "id": 10,
+      "name": "RTK",
+      "x": 185,
+      "y": 120,
+      "fixed": true,
+      "transmit": true,
+      "proteins": 10,
+      "proteins_income": 1,
+      "power": 1,
+      "weight": 2
+    },
+    {
+      "id": 11,
+      "name": "IGF1",
+      "x": 85,
+      "y": 100,
+      "fixed": true,
+      "transmit": true,
+      "proteins": 10,
+      "proteins_income": 1,
+      "power": 1,
+      "weight": 2
+    }
+  ],
+  "edges": [
+    {
+      "source": 0,
+      "target": 1,
+      "effect": "+",
+      "name": "0->1"
+    },
+    {
+      "source": 1,
+      "target": 2,
+      "effect": "+",
+      "name": "1->2"
+    },
+    {
+      "source": 2,
+      "target": 3,
+      "effect": "+",
+      "name": "2->3"
+    },
+    {
+      "source": 3,
+      "target": 4,
+      "effect": "+",
+      "name": "3->4"
+    },
+    {
+      "source": 4,
+      "target": 5,
+      "effect": "+",
+      "name": "4->5"
+    },
+    {
+      "source": 5,
+      "target": 6,
+      "effect": "-",
+      "name": "5->6"
+    },
+    {
+      "source": 6,
+      "target": 7,
+      "effect": "-",
+      "name": "6->7"
+    },
+    {
+      "source": 8,
+      "target": 3,
+      "effect": "-",
+      "name": "8->3"
+    },
+    {
+      "source": 9,
+      "target": 7,
+      "effect": "+",
+      "name": "9->7"
+    },
+    {
+      "source": 9,
+      "target": 3,
+      "effect": "+",
+      "name": "9->3"
+    },
+    {
+      "source": 10,
+      "target": 3,
+      "effect": "+",
+      "name": "10->3"
+    },
+    {
+      "source": 0,
+      "target": 0,
+      "effect": "-",
+      "name": "0->0"
+    },
+    {
+      "source": 11,
+      "target": 0,
+      "effect": "+",
+      "name": "11->0"
+    }
+  ]
+}
