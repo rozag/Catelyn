@@ -1,7 +1,7 @@
 # Project Catelyn
 Модель работы сигнального каскада живой клетки.
 <p align="center">
-	<img src="//habrastorage.org/files/593/7f5/4be/5937f54be6c24479b23e5904d293cb3f.png"/>
+	<img src="http://habrastorage.org/files/593/7f5/4be/5937f54be6c24479b23e5904d293cb3f.png"/>
 </p>
 
 License
