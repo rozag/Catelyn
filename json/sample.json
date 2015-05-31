@@ -7,7 +7,7 @@
       "y": 220,
       "fixed": true,
       "proteins": 10,
-      "proteins_income": 1,
+      "proteins_income": 2,
       "transmit": true,
       "power": 1,
       "weight": 2
@@ -80,7 +80,7 @@
       "fixed": true,
       "transmit": true,
       "proteins": 10,
-      "proteins_income": 1,
+      "proteins_income": 2,
       "power": 1,
       "weight": 2
     },
@@ -116,8 +116,8 @@
       "fixed": true,
       "transmit": true,
       "proteins": 10,
-      "proteins_income": 1,
-      "power": 1,
+      "proteins_income": 5,
+      "power": 2,
       "weight": 2
     },
     {
@@ -128,7 +128,7 @@
       "fixed": true,
       "transmit": true,
       "proteins": 10,
-      "proteins_income": 1,
+      "proteins_income": 2,
       "power": 1,
       "weight": 2
     },
@@ -140,8 +140,8 @@
       "fixed": true,
       "transmit": true,
       "proteins": 10,
-      "proteins_income": 1,
-      "power": 1,
+      "proteins_income": 4,
+      "power": 3,
       "weight": 2
     }
   ],

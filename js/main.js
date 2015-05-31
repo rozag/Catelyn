@@ -1,5 +1,4 @@
-// TODO Не рисуются стрелки, у которых source и target совпадают
-var DEBUG = true;
+var DEBUG = false;
 
 // Считываем JSON
 function loadJSON(callback) {
@@ -87,7 +86,7 @@ function createGeneNode(name, proteins, income, power) {
     return geneItem;
 }
 
-var MINIMAL_RADIUS = 8;
+var MIN_RADIUS = 8;
 
 // Рисуем граф по данным
 function drawGraph() {
@@ -95,19 +94,31 @@ function drawGraph() {
     var width = graphSpace.clientWidth, height = window.innerHeight - 200;
 
     var nodes = response.nodes;
-    var links = response.edges.filter(function (edge) {
-        return edge.source != edge.target;
-    });
+    var links = response.edges;
 
     var linkArc = function (d) {
-        return "M" + d.source.x + "," + d.source.y + "A0,0 0 0,1 " + d.target.x + "," + d.target.y;
+        if (d.source.x == d.target.x && d.source.y == d.target.y) {
+            var x1 = d.source.x;
+            var y1 = d.source.y;
+            var x2 = d.target.x;
+            var y2 = d.target.y;
+            var drx = 20;
+            var dry = 20;
+            var xRotation = -45;
+            var largeArc = 1;
+            var sweep = 1;
+            x2 += 1;
+            y2 += 1;
+            return "M" + x1 + "," + y1 + "A" + drx + "," + dry + " " + xRotation + "," + largeArc + "," + sweep + " " + x2 + "," + y2;
+        } else {
+            return "M" + d.source.x + "," + d.source.y + "A0,0 0 0,1 " + d.target.x + "," + d.target.y;
+        }
     };
 
     var transform = function (d) {
         return "translate(" + d.x + "," + d.y + ")";
     };
 
-    // Use elliptical arc path segments to doubly-encode directionality.
     var tick = function () {
         path.attr("d", linkArc);
         circle.attr("transform", transform);
@@ -130,7 +141,7 @@ function drawGraph() {
     var circle = svg.append("g").selectAll("circle")
         .data(force.nodes())
         .enter().append("circle")
-        .attr("r", MINIMAL_RADIUS)
+        .attr("r", MIN_RADIUS)
         .call(force.drag)
         .attr("id", function (d) {
             return "circle_" + nodes.indexOf(d);
@@ -185,6 +196,16 @@ function drawGraph() {
     if (DEBUG) console.log("edges", links);
     if (DEBUG) console.log("edges[0]", links[0]);
 
+    saveBasicParams();
+}
+
+// Сохраняем исходный показатель power
+function saveBasicParams() {
+    response.nodes.forEach(function (node) {
+        node["basicPower"] = node["power"];
+        node["basicIncome"] = node["proteins_income"];
+    });
+
     prepareButtons();
 }
 
@@ -237,8 +258,6 @@ function prepareButtons() {
     };
 }
 
-// HOWTO change radius:  d3.select("svg").select("#circle_" + 0).attr("r", 20);
-
 // Сам процесс
 function act() {
     STEP++;
@@ -247,6 +266,7 @@ function act() {
     document.querySelector("#step_label").textContent = "Step: " + STEP;
 
     response.nodes.forEach(addIncomeProteins);
+    response.nodes.forEach(updatePower);
     response.nodes.forEach(actWithNode);
     response.nodes.forEach(updateUIWithNode);
 
@@ -254,18 +274,42 @@ function act() {
         setTimeout(act, INTERVAL);
 }
 
+var MAX_PROTEINS = 5000;
+var DEGRADE_COEFFICIENT = -4;
+
 // Каждый ход добавляем сколько-то белка
 function addIncomeProteins(node) {
-    node["proteins"] += node["proteins_income"];
-    node["stepIncome"] = node["proteins_income"];
+    if (node["proteins"] >= MAX_PROTEINS) {
+        node["proteins_income"] = DEGRADE_COEFFICIENT;
+    } else if (node["proteins"] < 10 && node["proteins_income"] == DEGRADE_COEFFICIENT) {
+        node["proteins_income"] = node["basicIncome"];
+    }
+
+    var result = node["proteins"] + node["proteins_income"];
+    if (result >= 0 && result <= MAX_PROTEINS) {
+        node["proteins"] += node["proteins_income"];
+        node["stepIncome"] = node["proteins_income"];
+    }
+}
+
+var PROTEINS_DIVIDER = 200;
+
+// Увеличиваем power в зависимости от proteins
+function updatePower(node) {
+    node["power"] = node["basicPower"];
+    if (node["proteins"] > 0 && Math.log(node["proteins"] / PROTEINS_DIVIDER) > 0) {
+        node["power"] += Math.floor(Math.log(node["proteins"] / PROTEINS_DIVIDER));
+    }
 }
 
 // Ген воздействует на свои targets
 function actWithNode(node) {
     node.targets.forEach(function (link) {
         var ACT = true;
-        if (node["proteins"] <= 0 && link.effect == "+"
+        if (link.effect == "+" && node["proteins"] <= 0
+            || link.effect == "-" && node["proteins"] >= MAX_PROTEINS
             || link.effect == "-" && response.nodes[link.target]["proteins"] <= 0
+            || link.effect == "+" && response.nodes[link.target]["proteins"] >= MAX_PROTEINS
             || node["transmit"] == false)
             ACT = false;
 
@@ -278,10 +322,12 @@ function actWithNode(node) {
     });
 }
 
+var RADIUS_DIVIDER = 100;
+
 // Обновляем интерфейс
 function updateUIWithNode(node, i) {
     node.domElt.querySelector("#proteins").textContent = "proteins: " + node["proteins"];
-    node.domElt.querySelector("#income").textContent = "income: " + node["stepIncome"];
+    node.domElt.querySelector("#income").textContent = "last income: " + node["stepIncome"];
     node.domElt.querySelector("#power").textContent = "power: " + node["power"];
-    d3.select("svg").select("#circle_" + i).attr("r", MINIMAL_RADIUS + node["proteins"] / 50);
+    d3.select("svg").select("#circle_" + i).attr("r", MIN_RADIUS + node["proteins"] / RADIUS_DIVIDER);
 }
