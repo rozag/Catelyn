@@ -212,6 +212,7 @@ function saveBasicParams() {
 var PAUSED = true;
 var INTERVAL = 300;
 var STEP = 0;
+var RIPPLE_INTERVAL = 10;
 
 // Подготавливаем Play, Pause, Forward кнопки
 function prepareButtons() {
@@ -269,6 +270,8 @@ function act() {
     response.nodes.forEach(updatePower);
     response.nodes.forEach(actWithNode);
     response.nodes.forEach(updateUIWithNode);
+    if (STEP % RIPPLE_INTERVAL == 0)
+        response.nodes.forEach(drawRipple);
 
     if (!PAUSED)
         setTimeout(act, INTERVAL);
@@ -330,4 +333,43 @@ function updateUIWithNode(node, i) {
     node.domElt.querySelector("#income").textContent = "last income: " + node["stepIncome"];
     node.domElt.querySelector("#power").textContent = "power: " + node["power"];
     d3.select("svg").select("#circle_" + i).attr("r", MIN_RADIUS + node["proteins"] / RADIUS_DIVIDER);
+}
+
+var RADIUS_DELTA = 20;
+
+// Рисуем расходящиеся круги
+function drawRipple(node, i) {
+    if (node["stepIncome"] > 0) {
+        helperDrawCircle(i, node.x, node.y, "#609b53", MIN_RADIUS + RADIUS_DELTA + node["proteins"] / RADIUS_DIVIDER, false)
+    } else if (node["stepIncome"] < 0) {
+        helperDrawCircle(i, node.x, node.y, "#9b4f4f", MIN_RADIUS + RADIUS_DELTA + node["proteins"] / RADIUS_DIVIDER, true)
+    }
+}
+
+function helperDrawCircle(i, x, y, color, radius, isNegative) {
+    var startRadius, endRadius;
+    if (isNegative) {
+        startRadius = radius;
+        endRadius = radius - RADIUS_DELTA;
+    } else {
+        startRadius = radius - RADIUS_DELTA;
+        endRadius = radius;
+    }
+
+    var circle = d3.select("svg").append("circle")
+        .attr("cx", x)
+        .attr("cy", y)
+        .attr("r", startRadius)
+        .style("stroke-width", 3)
+        .style("stroke", color)
+        .style("fill-opacity", 0)
+        .transition()
+        //.delay(i * 100)
+        .duration(1500)
+        .ease('quad-in')
+        .attr("r", endRadius)
+        .style("stroke-opacity", 0)
+        .each("end", function () {
+            d3.select(this).remove();
+        });
 }

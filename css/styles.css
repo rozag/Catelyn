@@ -16,13 +16,14 @@
     fill: none;
     stroke: #609b53;
     stroke-width: 2px;
-    /* stroke-dasharray: 0, 3, 0;  пунктирные линии */
+    /*stroke-dasharray: 0, 2, 0;*/
 }
 
 .link.negative {
     fill: none;
     stroke: #9b4f4f;
     stroke-width: 2px;
+    /*stroke-dasharray: 0, 2, 0;*/
 }
 
 marker {
@@ -30,7 +31,7 @@ marker {
 }
 
 circle {
-    opacity: 0.7;
+    opacity: 0.5;
     fill: #a19dcc;
     stroke: #716fcc;
     stroke-width: 2px;
